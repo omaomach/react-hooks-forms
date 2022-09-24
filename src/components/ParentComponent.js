@@ -3,27 +3,58 @@ import Form from "./Form";
 import DisplayData from "./DisplayData";
 
 function ParentComponent() {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        admin: false
+    })
 
-    function handleFirstName(event) {
-        setFirstName(event.target.value)
+    function handleChange(event) {
+        const name = event.target.name
+        let value = event.target.value
+
+        if (event.target.type === "checkbox") {
+            value = event.target.checked
+        }
+
+        setFormData({
+            ...formData,
+            [name]: value
+        })
+
     }
 
-    function handleLastName(event) {
-        setLastName(event.target.value)
+    function handleSubmit(event) {
+        event.preventDefault()
+        console.log(formData)
     }
+
+    // function handleFirstName(event) {
+    //     setFormData({
+    //         ...formData,
+    //         firstName: event.target.value
+    //     })
+    // }
+
+    // function handleLastName(event) {
+    //     setFormData({
+    //         ...formData,
+    //         lastName: event.target.value
+    //     })
+    // }
 
 
     return (
         <>
             <Form 
-            firstName={firstName}
-            lastName={lastName}
-            handleFirstName={handleFirstName}
-            handleLastName={handleLastName}
+            firstName={formData.firstName}
+            lastName={formData.lastName}
+            admin={formData.admin}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            // handleLastName={handleLastName}
             />
-            <DisplayData firstName={firstName} lastName={lastName}/>
+            <DisplayData firstName={formData.firstName} lastName={formData.lastName} admin={formData.admin}/>
         </>
     )
 
